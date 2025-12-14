@@ -1,0 +1,42 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json",
+  "name": "io.github.domdomegg/shell-exec-mcp",
+  "title": "Shell Exec",
+  "description": "Execute bash commands with background job support.",
+  "websiteUrl": "https://github.com/domdomegg/shell-exec-mcp#readme",
+  "repository": {
+    "url": "https://github.com/domdomegg/shell-exec-mcp.git",
+    "source": "github"
+  },
+  "version": "{{VERSION}}",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "shell-exec-mcp",
+      "version": "{{VERSION}}",
+      "runtimeHint": "npx",
+      "transport": {
+        "type": "stdio"
+      }
+    },
+    {
+      "registryType": "npm",
+      "identifier": "shell-exec-mcp",
+      "version": "{{VERSION}}",
+      "runtimeHint": "npx",
+      "environmentVariables": [
+        {
+          "name": "MCP_TRANSPORT",
+          "description": "Transport type.",
+          "isRequired": true,
+          "isSecret": false,
+          "value": "http"
+        }
+      ],
+      "transport": {
+        "type": "streamable-http",
+        "url": "http://localhost:3000/mcp"
+      }
+    }
+  ]
+}
