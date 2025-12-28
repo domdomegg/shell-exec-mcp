@@ -2,6 +2,7 @@ import type {McpServer} from '@modelcontextprotocol/sdk/server/mcp.js';
 import {spawn, type ChildProcess} from 'node:child_process';
 import {z} from 'zod';
 import {jsonResult} from '../utils/response.js';
+import {strictSchemaWithAliases} from '../utils/schema.js';
 
 const DEFAULT_TIMEOUT = 5000; // 5 seconds
 
@@ -44,11 +45,14 @@ export function registerBash(server: McpServer): void {
 		{
 			title: 'Execute',
 			description: executeDescription,
-			inputSchema: {
-				command: z.string().describe('The bash command to run'),
-				timeout: z.number().optional().describe(`Timeout in milliseconds (default: ${DEFAULT_TIMEOUT})`),
-				background: z.boolean().optional().describe('Run in background and return job ID'),
-			},
+			inputSchema: strictSchemaWithAliases(
+				{
+					command: z.string().describe('The bash command to run'),
+					timeout: z.number().optional().describe(`Timeout in milliseconds (default: ${DEFAULT_TIMEOUT})`),
+					background: z.boolean().optional().describe('Run in background and return job ID'),
+				},
+				{},
+			),
 		},
 		async (args) => {
 			const {command} = args;
@@ -151,9 +155,12 @@ export function registerBash(server: McpServer): void {
 		{
 			title: 'Get Job Status',
 			description: getStatusDescription,
-			inputSchema: {
-				jobId: z.string().describe('The job ID returned from execute with background: true'),
-			},
+			inputSchema: strictSchemaWithAliases(
+				{
+					jobId: z.string().describe('The job ID returned from execute with background: true'),
+				},
+				{},
+			),
 		},
 		async (args) => {
 			const job = backgroundJobs.get(args.jobId);
