@@ -47,7 +47,7 @@ describe('tool registration', () => {
 });
 
 describe('execute tool', () => {
-	let handler: (args: {command: string; timeout?: number; background?: boolean}) => Promise<unknown>;
+	let handler: (args: {command: string; timeout_ms?: number; background?: boolean}) => Promise<unknown>;
 
 	beforeEach(() => {
 		const registeredTools = new Map<string, {meta: unknown; handler: typeof handler}>();
@@ -85,7 +85,7 @@ describe('execute tool', () => {
 	});
 
 	it('times out long-running commands', async () => {
-		const result = await handler({command: 'sleep 10', timeout: 100}) as {structuredContent: {stdout: string; stderr: string; exitCode: number}};
+		const result = await handler({command: 'sleep 10', timeout_ms: 100}) as {structuredContent: {stdout: string; stderr: string; exitCode: number}};
 
 		expect(result.structuredContent.exitCode).toBe(124);
 		expect(result.structuredContent.stderr).toContain('timed out');
