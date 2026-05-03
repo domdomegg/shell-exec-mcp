@@ -48,15 +48,17 @@ export function registerBash(server: McpServer): void {
 			inputSchema: strictSchemaWithAliases(
 				{
 					command: z.string().describe('The bash command to run'),
-					timeout: z.number().optional().describe(`Timeout in milliseconds (default: ${DEFAULT_TIMEOUT})`),
+					timeout_ms: z.number().optional().describe(`Timeout in milliseconds (default: ${DEFAULT_TIMEOUT})`),
 					background: z.boolean().optional().describe('Run in background and return job ID'),
 				},
-				{},
+				{
+					timeout: 'timeout_ms',
+				},
 			),
 		},
 		async (args) => {
 			const {command} = args;
-			const timeout = args.timeout ?? DEFAULT_TIMEOUT;
+			const timeout = args.timeout_ms ?? DEFAULT_TIMEOUT;
 
 			// Background mode
 			if (args.background) {
