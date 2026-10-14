@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import {StdioServerTransport} from '@modelcontextprotocol/sdk/server/stdio.js';
 import {StreamableHTTPServerTransport} from '@modelcontextprotocol/sdk/server/streamableHttp.js';
+import type {Transport} from '@modelcontextprotocol/sdk/shared/transport.js';
 import express, {type Request, type Response} from 'express';
 import {createServer} from './index.js';
 
@@ -23,7 +24,7 @@ const transport = process.env.MCP_TRANSPORT || 'stdio';
 		setupSignalHandlers(async () => server.close());
 
 		const stdioTransport = new StdioServerTransport();
-		await server.connect(stdioTransport);
+		await server.connect(stdioTransport as Transport);
 		console.error('shell-exec-mcp running on stdio');
 	} else if (transport === 'http') {
 		const app = express();
@@ -37,10 +38,9 @@ const transport = process.env.MCP_TRANSPORT || 'stdio';
 
 			try {
 				const httpTransport = new StreamableHTTPServerTransport({
-					sessionIdGenerator: undefined,
 					enableJsonResponse: true,
 				});
-				await server.connect(httpTransport);
+				await server.connect(httpTransport as Transport);
 
 				await httpTransport.handleRequest(req, res, req.body);
 
