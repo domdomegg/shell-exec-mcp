@@ -15,7 +15,6 @@
   "mcpName": "io.github.domdomegg/shell-exec-mcp",
   "scripts": {
     "start": "npm run build && node ./dist/main.js",
-    "start:http": "npm run build && MCP_TRANSPORT=http node ./dist/main.js",
     "test": "vitest run",
     "test:watch": "vitest --watch",
     "lint": "eslint",
@@ -25,7 +24,6 @@
   },
   "devDependencies": {
     "@tsconfig/node-lts": "^24.0.0",
-    "@types/express": "^5.0.0",
     "@types/node": "^22.0.0",
     "eslint": "^9.0.0",
     "eslint-config-domdomegg": "^2.0.0",
@@ -35,7 +33,6 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.24.0",
-    "express": "^5.0.0",
     "zod": "^3.24.0"
   }
 }
